@@ -1,0 +1,197 @@
+Homework 32
+
+Carter Mullenix
+
+Question 1:
+
+a.)
+
+P(A|not favored) = (P(A)P(not favored|A))/(P(A)P(not favored|A)+P(B)P(not favored|B)+P(C)P(not favored|C)
+
+= ((.2)*(.7))/((.2)*(.7)+(.3)*(.5)+(.5)*(.1)) = .41
+
+
+b.)
+
+P(A|not favored) = .41
+
+
+c.)
+
+P(B|not favored) = ((.3)*(.5))/((.2)*(.7)+(.3)*(.5)+(.5)*(.1)) = .44
+
+
+d.)
+
+P(C|not favored) = ((.5)*(.1)/((.2)*(.7)+(.3)*(.5)+(.5)*(.1)) = .15
+
+
+e.)
+
+n = 10000
+p = rep(0,n)
+f = rep(0,n)
+
+for (i in 1:n) {
+  p[i] = sample(1:3, 1, prob=c(.2,.3,.5))
+  if (p[i] == 1){
+    f[i] = (runif(1) < .3)
+  }else if (p[i] ==2) {
+    f[i] = (runif(1) < .5)
+  } else {
+    f[i] = (runif(1) < .9)
+  }
+}
+
+cat("P(A|favor) = ", sum(p == 1 & f) / sum(f), "\n")
+
+
+f.)
+
+Since the person is at a wine festival another variable that is introduced is the fact that people at a wine festival could have different opinions than the total population or the randomly selected individual. Given this fact, the above calculations are invaild.
+
+
+Question 2
+
+a.)
+
+ucb = UCBAdmissions
+
+apply(ucb,c("Dept","Admit"),sum)
+mosaicplot(apply(ucb,c("Dept","Gender"),sum))
+
+Being admitted depends on applied to department so these two variables are not independent.
+
+
+b.)
+
+apply(ucb,c("Dept","Gender"),sum)
+mosaicplot(apply(ucb,c("Dept","Gender"),sum))
+
+These are not independent based on the mosaic plot.
+
+
+c.)
+
+ucb[,,"F"]
+mosaicplot(ucb[,,"F"])
+
+Gender and Admission look to be independent when given department "F".
+
+
+d.)
+
+apply(ucb["Rejected",,],"Gender",sum)
+
+
+
+Question 3
+
+a.)
+
+s = c(rep(1,50),rep(2,50),rep(3,50))
+pairs(iris[,1:4],pch=s)
+
+
+b.)
+
+If we look at the plot on row 4 col 5, petal length is on the horizontal axis and petal width is on the vertical axis. If we make a line of best fit and look at the correlation of the points we see that this created a strong correlation. The points on the graph are also separated well into their respective categories.
+
+Question 4
+
+a.)
+
+n = 1000
+r = 3
+o = matrix(0,n,r)
+for (i in 1:n) {
+  d = sample(1:3,1,prob=c(.5,.25,.25))
+  if (d == 1) {
+    o[i,] = sample(1:6,3,replace=T,prob=rep(1/6,6))
+  } else if (d == 2) {
+    o[i,] = sample(1:6,3,replace=T,prob=c(2/9,1/9,2/9,1/9,2/9,1/9))
+  } else {
+    o[i,] = sample(1:6,3,replace=T,prob=c(1/9,1/9,1/9,2/9,2/9,2/9))
+  }
+}
+
+b.)
+
+P(A, x_1 = 2, x_2 = 4, x_3 = 5) = P(A)*P(x_1 = 2|A)*(x_2 = 4|A)*(x_3 = 5|A) = (1/2)*(1/6)*(1/6)*(1/6) = .00231
+P(B, x_1 = 2, x_2 = 4, x_3 = 5) = P(B)*P(x_1 = 2|B)*(x_2 = 4|B)*(x_3 = 5|B) = (1/4)*(1/9)*(1/9)*(2/9) = .00068
+P(C, x_1 = 2, x_2 = 4, x_3 = 5) = P(C)*P(x_1 = 2|C)*(x_2 = 4|C)*(x_3 = 5|C) = (1/2)*(1/9)*(2/9)*(2/9) = .00137
+
+P(A | x_1 = 2, x_2 = 4, x_3 = 5) = (.00231)/(.00231 + .00068 + .00137) = .530
+P(B | x_1 = 2, x_2 = 4, x_3 = 5) = (.00068)/(.00231 + .00068 + .00137) = .156
+P(C | x_1 = 2, x_2 = 4, x_3 = 5) = (.00137)/(.00231 + .00068 + .00137) = .314
+
+
+c.)
+
+It classifies according to most likely class which would be A. (.530)
+
+
+d.)
+
+n = 1000
+r = 3
+o = matrix(0,n,r)
+p = matrix(0,3,6)
+p[1,] = rep(1/6,6)
+p[2,] = c(2/9,1/9,2/9,1/9,2/9,1/9)
+p[3,] = c(1/9,1/9,1/9,2/9,2/9,2/9)
+previous = c(.5,.25,.25)
+t = rep(0,n)
+e = rep(0,n)
+for (i in 1:n) {
+  t[i] = sample(1:3,1,prob = previous)
+  x = o[i,] = sample(1:6,3,replace=T,prob=p[t[i],])
+  joint = previous * p[,x[1]] * p[,x[2]] * p[,x[3]]
+  e[i] = which.max(joint)
+}
+
+cat("estimated prob of correct = ", sum(e==t)/n, "\n")
+
+
+
+Question 4
+
+a.)
+
+x = read.csv("three_related_vars.csv")
+mosaicplot(table(x$A,x$B))
+
+None of the pairs are independent due to their mosiac plot
+
+
+b.)
+
+mosaicplot(table(x[x$C==1,c("A","B")]))
+mosaicplot(table(x[x$C==0,c("A","B")]))
+
+c.)
+
+P(A,B,C) = P(C)P(A|C)P(B|C)
+
+P(C) = .7
+P(A|C) = .8
+P(B|C) = .8
+P(A|C^c) = .2
+P(B|C^c) = .2
+
+
+n = 1000
+A = rep(0,n)
+B = rep(0,n)
+C = rep(0,n)
+for (i in 1:n) {
+  C[i] = runif(1) < .7
+  if (C[i]){
+    A[i] = runif(1) < .8
+    B[i] = runif(1) < .8
+  } else {
+    A[i] = runif(1) < .2
+    B[i] = runif(1) < .2
+  }
+}
+
