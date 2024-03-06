@@ -1,0 +1,174 @@
+Homework 1
+
+Carter Mullenix
+
+
+1.)
+
+a)
+
+We cannot compute the true value from a sample.
+
+b)
+
+801/(801+9192) = 0.08
+
+c)
+
+Kale eaters: 0.08 +- 1.96 * sqrt((0.08*.92)/(9993)) = 0.08 +- 0.005
+
+Non-Kale eaters: 0.12 +- 1.96 * sqrt((0.12*.88)/(99027)) = 0.12 +- 0.002
+
+d)
+
+The confidence intervals do not overlap so we can conclude with 95% confidence that
+kale eaters have a lower rate of diabetes.
+
+e)
+
+No we cannot conclude causation from the sample data above. There are other factors that 
+could lead to this such as underlying health factors and differences lifestyles.
+
+f)
+
+There are other factors that could lead to this such as underlying health factors and
+differences lifestyles.
+
+
+
+2.)
+
+a)
+
+Different zip codes can have economic classes leading to differences in medical care and
+availibitlity of fresh healthy food. No causation can be concluded.
+
+b)
+
+The health conscience people are eating healthier which can lead to lower rates of diabetes.
+No causation can be concluded.
+
+c)
+
+The only difference in the groups would be kale since the groups were assigned using the R
+program. This randomness allows us to conclude causation.
+
+
+
+3.)
+
+a)
+
+The P(A) and the P(B) both are equal to 0.5 and P(A∩B) is equal to 0.25. The formula for
+independence is P(A∩B) = P(A) * P(B) which is 0.25 = 0.5 * 0.5. This is true so they are
+independent.
+
+b)
+
+The 95% confidence interval would be computed by 1/sqrt(1000) = .03. The intervals of P(A)
+and P(B) will contain 1/2 and the interval of P(A∩B) contains 1/4 so this means that A and
+B are independent.
+
+
+
+4.)
+
+a)
+
+n = 1000000
+A = rep(0,n)
+B = rep(0,n)
+
+for (i in 1:n) {
+  x = runif(1)
+  A[i] = (x <.5)
+  B[i] = ((2*x) %% 1) < .5
+}
+phata = sum(A)/n
+phatb = sum(B)/n
+phatab = sum(A + B)/n
+cat(phata = "pm ", 1.96*sqrt(phata*(1-phata)/n), "\n")
+cat(phatb = "pm ", 1.96*sqrt(phatb*(1-phatb)/n), "\n")
+cat(phatab = "pm ", 1.96*sqrt(phatab*(1-phatab)/n), "\n")
+
+b)
+
+P(A∩B) = P(A) * P(B) is independent and supported by confidence intervals.
+
+
+
+5.)
+
+a) 
+
+The events A and B are dependent because people that think the city is being ran well
+could just say that both are doing well since they don't see any problems.
+
+b)
+
+A nd B are independent because the approval of one person does not affect the other.
+
+c)
+
+A and B are independent because the result of one coin flip does not affect the next.
+
+d)
+
+A and B are likely dependent because someone who like the first movie is likely to like
+the sequel.
+
+
+
+6.)
+
+a)
+
+They are dependent because having T puts you at a higher probability of having S but there 
+is still a probability of having T without S and S without T.
+
+b)
+
+P(T) = 0.30
+P(S∣T) = 0.90
+P(S) = P(T) * P(S∣T) + (1 − P(T)) * P(S∣¬T)
+= 0.30 * 0.90 + 0.70 * 0.30
+= 0.27 + 0.21
+= 0.48
+
+P(T∣S) = (0.9 * 0.3) / (0.48) = 0.5625
+
+c)
+
+population_size = 10000
+prob_T = 0.30
+prob_S_given_T = 0.90
+prob_S_given_not_T = 0.30
+
+trait_T = rbinom(population_size, 1, prob_T)
+trait_S = rep(0, population_size)
+
+for (i in 1:population_size) {
+  if (trait_T[i] == 1) {
+    trait_S[i] = rbinom(1, 1, prob_S_given_T)
+  } else {
+    trait_S[i] = rbinom(1, 1, prob_S_given_not_T)
+  }
+}
+
+prop_T = mean(trait_T)
+prop_S = mean(trait_S)
+
+cat("Proportion of population with trait T:", prop_T, "\n")
+cat("Proportion of population with trait S:", prop_S, "\n")
+
+d)
+
+prob_T_given_S = (prob_S_given_T * prob_T) / prob_S
+
+(.90*.30)/.48 = .5625
+
+.56 +- 1.96 * sqrt((.56*(1-.56))/n) = 0.55027
+
+It is consistent with my answer to the first part of the problem.
+
+
